@@ -11,8 +11,9 @@
 \maketitle
 
 \begin{abstract}
-  The following document contains a set of notes about computation.
-  We consider the efficiency of computations and also problems that are undecidable.
+  The following notes are about computation.
+  We consider the limits and efficiency of computation.
+  We are largely only interested in syntax.
 \end{abstract}
 
 \section{Languages}
@@ -168,9 +169,25 @@ Start with any set, call it an alphabet and denote it by \( A \).
 
   Given that non-deterministic Turing machines may fork into many paths, how should we count the steps they take?
   The common way to count this is to consider the longest path taken, irrespective of whether it accepts or rejects.
-  Thus a non-deterministic Turing machine takes \(O(f(n)\) steps if the maximum number of steps in its longest path on an input of length \(n\) is \(O(f(n)\).
+  Thus a non-deterministic Turing machine takes \(O(f(n))\) steps if the maximum number of steps in its longest path on an input of length \(n\) is \(O(f(n))\).
+
+  Note, because every deterministic Turing machine is also a non-deterministic Turing machine, every language in \CC{P} is in \CC{NP}.
+  So, \CC{P} \( \subseteq \) \CC{NP}.
+  The \CC{P} versus \CC{NP} problem is to determine whether \CC{P} \( = \) \CC{NP} or \CC{P} \( \subset \) \CC{NP}.
 
 \section{Church-Turing thesis}
+  The ideas surrounding Turing machines arose from Turing's investigations into computability.
+  Alonzo Church was Turing's PhD supervisor and developed an equivalent system called lambda calculus.
+  By equivalent, we mean that any computation that can be done on a Turing machine can be done using lambda calculus and vice versa.
+  Lambda calculus is the basis for functional programming languages, and the difference between functional and imperative programming languages is mirrored in that between lambda calculus and Turing machines.
+  
+  Turing and Church were working on ideas posed by G{\"o}del and Hilbert which concerned the foundations of mathematics.
+  Hilbert asked if mathematics was algorithmic in the sense that true mathematical statements could be deduced by some procedure from axioms.
+  G{\"o}del had shown that there must be some statements in mathematics that are true but cannot be proved.
+  Church and Turing proved, while developing their computational systems, that their systems could not compute everything.
+  What has become known as the Church-Turing thesis is the idea that what we as humans think of as computation is perfectly encapsulated by Turing machines and so the limits on computation are real --- they are not just features of Turing machines.
+
+
 
 \section{Reductions}
 
