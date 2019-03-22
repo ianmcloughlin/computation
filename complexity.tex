@@ -187,9 +187,15 @@ Start with any set, call it an alphabet and denote it by \( A \).
   Church and Turing proved, while developing their computational systems, that their systems could not compute everything.
   What has become known as the Church-Turing thesis is the idea that what we as humans think of as computation is perfectly encapsulated by Turing machines and so the limits on computation are real --- they are not just features of Turing machines.
 
-
-
 \section{Reductions}
+  Ultimately the output of a Turing machine is a binary accept/reject decision.
+  However, Turing machines have another type of output: what is left on the tape once the machine halts.
+  We might care about this, for instance, if we are interested in running two Turing machines sequentially on the one input.
+  The first Turing machine might manipulate its input in order that the second Turing machine receives that input altered in some way.
+
+  For example, consider the language \CC{EVENPARITY} containing all strings over the alphabet \( \{ 0,1 \} \) that contain an even number of \(1\)'s, including zero as an even number.
+  Thus, \CC{EVENPARITY} \(= \{\epsilon, 0, 00, 11, 110, 101, 011, \ldots\} \).
+
 
 
 \section{\CC{COMPLETE}}
