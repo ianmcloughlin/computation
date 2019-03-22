@@ -4,6 +4,8 @@
 \author{ian.mcloughlin@gmit.ie}
 \date{\today}
 
+\newcommand{\CC}[1]{\textbf{#1}}
+
 \begin{document}
 
 \maketitle
@@ -14,23 +16,22 @@
 \end{abstract}
 
 \section{Languages}
-  Start with any set, call it an alphabet and denote it by \( A \).
-  For example:
-  \[ A = \{ 0, 1 \} \]
+Start with any set, call it an alphabet and denote it by \( A \).
+  For example, take the set A = \{ 0, 1 \} is an alphabet.
+  We define strings of length \( i \) over \( A \) recursively:
+  \[
+    A^0 = \{ \epsilon \}; \ 
+    A^1 = A; \ 
+    A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}
+  \]
+  The \( \epsilon \) stands for the empty string\footnote{It's notoriously difficult to depict.}.
 
-  We define the strings of length \( i \) over \( A \) recursively:
-  \begin{align*}
-    A^0 &= \{ \epsilon \} \\
-    A^1 &= A \\
-    A^{i} &= \{ as \mid a \in A, s \in A^{i-1} \}
-  \end{align*}
+  The Kleene star \( A^* \) of the alphabet \( A \) is then union of all \( A^i \) for \( i \in \mathbb{N}_0 \).
+  Here \( \mathbb{N}_0 \) is the set of natural numbers including zero: \( \mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \} \).
+  \[ A^* = \bigcup_{i \in \mathbb{N}_0} A^i\]
 
-  The Kleene star \( A^* \) of the alphabet \( A \) is then union of all \( A^i \):
-  \[ \bigcup_{i \in \mathbb{N}_0} A^i\]
-  Here \( \mathbb{N}_0 \) is the set of natural numbers including zero:
-  \[ A^* = \mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \} \]
-  A language \( L \) over an alphabet \( A \) is a subset of \( A^* \):
-  \[ L \subseteq A^* \]
+  A language \( L \) over an alphabet \( A \) is a subset of \( A^* \): \( L \subseteq A^* \).
+  Note that the strings in a language all have finite length.
 
 \section{Turing machines}
   Turing machines encapsulate the concept of a computer.
@@ -103,6 +104,7 @@
 \section{Complexity}
   A decider takes a finite number of steps before halting on a given input.
   We are typically interested in knowing the maximum number of steps \( f(n) \) the decider takes on all inputs of length \( n \).
+  We use the number of steps as a proxy for time --- it's common to call the number of steps the \emph{time} the Turing machine takes.
   
   We can often express \( f(n) \) using a simple formula, such as \( f(n) = 2n + 2 \).
   We are interested in knowing how \( f(n) \) grows in relation to \( n \).
@@ -121,13 +123,17 @@
   \caption{\( 2n + 2 \) is \( O(n) \)}
   \label{plot:2n2}
   \end{figure}
+  We usually define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O(f(n) \) steps.
 
-\section{\( P \)}
-  We denote by \( P \) the set of languages that are each decidable by some Turing machine in \( O(n^k) \) steps for some \( n \in \mathbb{N} \) where \( \mathbb{N} \) is the set of natural numbers without zero, \( \{ 1, 2, 3, \ldots\} \).
-  The \( P \) here is short for polynomial.
-
+\section{\CC{P}}
+  We denote by \CC{P} the set of languages that are each decidable by some Turing machine in \( O(n^k) \) steps for some \( n \in \mathbb{N} \) where \( \mathbb{N} \) is the set of natural numbers without zero, \( \{ 1, 2, 3, \ldots\} \).
+  Using the \CC{NTIME}\((f(n)) \) definition above, \CC{P} is equivalently defined as the union of \CC{NTIME}\((n^k)\) for all \( k \in \mathbb{N} \).
+  
+  The \CC{P} is short for polynomial.
   Here, we define a polynomial is an expression in a variable \( n \) made up of constants (elements on \( \mathbb{N}\)), powers of \( n \) to a constant, addition, subtraction and multiplication.
   For example, \( n^5 + 2n + 4 \) is a polynomial whereas \( 2^n + n^2 + 5 \) is not because it is made up of something other than those elements listed above, namely \( 2^n \).
+
+
 
 \section{Non-determinism}
   \label{sect:nondet}
@@ -145,22 +151,32 @@
 
   How does non-determinism affect the computations Turing machines can perform?
   The bad news is that this doesn't give a Turing machine any extra power.
-  Turing proved in his 1936 paper \emph{On computable numbers with an application to the encheidungsproblem} that some languages are not the language of any Turing machine, let alone decidable by a Turing machine.
-  Allowing non-determinism does not change the languages that can be accepted or decided.
+  Turing proved in his 1936 paper \emph{On computable numbers with an application to the encheidungsproblem} that some languages are not the decidable by any Turing machine.
+  There are even languages that cannot be accepted, let alone be decided.
+  Allowing non-determinism does not change the languages that can be allowed or decided.
 
-  It's not known whether computations can be done more efficiently on non-deterministic Turing machine than on deterministic ones.
+  However, it is not known whether computations can be done more efficiently on non-deterministic Turing machines.
   Examples abound of efficient non-deterministic Turing machines that accept or decide languages for which no known efficient deterministic Turing machine is known.
-  However, it is not known whether such deterministic Turing machines exist.
-  A special case of this question is the \( P \) versus \( NP \) problem.
+  It is unknown whether such deterministic Turing machines exist.
+  A special case of this question is the \CC{P} versus \CC{NP} problem.
 
 
-\section{\( NP \)}
-  The \( NP \) complexity class is the non-deterministic equivalent of the deterministic \( P \) complexity class.
+\section{\CC{NP}}
+  The \CC{NP} complexity class is the non-deterministic equivalent of the deterministic \CC{P} complexity class.
+  Define \( NTIME(f(n)) \) as the set of languages decidable by a non-deterministic Turing machine in \( O(f(n)) \).
+  Then, \CC{NP} is the set of all languages decidable by non-deterministic Turing machine in \( O(f(n)) \) steps.
+
+  Given that non-deterministic Turing machines may fork into many paths, how should we count the steps they take?
+  The common way to count this is to consider the longest path taken, irrespective of whether it accepts or rejects.
+  Thus a non-deterministic Turing machine takes \(O(f(n)\) steps if the maximum number of steps in its longest path on an input of length \(n\) is \(O(f(n)\).
 
 \section{Church-Turing thesis}
 
+\section{Reductions}
+
+
+\section{\CC{COMPLETE}}
+
 \section{Undecidable problems}
 
-
-\section{}
 \end{document}
