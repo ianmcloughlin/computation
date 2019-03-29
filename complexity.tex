@@ -79,9 +79,9 @@ Start with any set, call it an alphabet and denote it by \( A \).
       \(q_0\) &   1 &   1 & R & \(q_1\) \\
       \(q_0\) & \bl & \bl & L & \(q_a\) \\
       \midrule
-      \(q_1\) &   0 &   0 & L & \(q_1\) \\
-      \(q_1\) &   1 &   1 & L & \(q_0\) \\
-      \(q_1\) & \bl & \bl & R & \(q_f\) \\
+      \(q_1\) &   0 &   0 & R & \(q_1\) \\
+      \(q_1\) &   1 &   1 & R & \(q_0\) \\
+      \(q_1\) & \bl & \bl & L & \(q_f\) \\
       \bottomrule
     \end{tabular}
     \caption{Turing machine state table}
@@ -189,12 +189,38 @@ Start with any set, call it an alphabet and denote it by \( A \).
 
 \section{Reductions}
   Ultimately the output of a Turing machine is a binary accept/reject decision.
-  However, Turing machines have another type of output: what is left on the tape once the machine halts.
+  However, Turing machines also have another type of output: what is left on the tape once the machine halts.
   We might care about this, for instance, if we are interested in running two Turing machines sequentially on the one input.
-  The first Turing machine might manipulate its input in order that the second Turing machine receives that input altered in some way.
+  The first Turing machine might manipulate the input in order that the second Turing machine receives that input altered in some way.
 
-  For example, consider the language \CC{EVENPARITY} containing all strings over the alphabet \( \{ 0,1 \} \) that contain an even number of \(1\)'s, including zero as an even number.
-  Thus, \CC{EVENPARITY} \(= \{\epsilon, 0, 00, 11, 110, 101, 011, \ldots\} \).
+  As an example, consider the language \texttt{EVENPARITY} containing all strings over the alphabet \( A = \{ 0,1 \} \) that contain an even number of \(1\)'s, including zero as an even number.
+  Thus, \texttt{EVENPARITY} \(= \{\epsilon, 0, 00, 11, 110, 101, 011, \ldots\} \).
+  A simple Turing machine decides this language, as per Table \ref{table:statetable}.
+  
+  We can use this Turing machine to decide the language \texttt{ODDPARITY}, containing all strings over \( A \) that contain an odd number of \(1\)'s, provided we use the machine given in Table \ref{table:oddparity} on the input first.
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{x{1cm}x{1cm}x{1cm}x{1cm}x{1cm}}
+      \toprule
+      State & Input & Write & Move & Next \\
+      \midrule
+      \(q_0\) &   0 & 0 & R & \(q_0\) \\
+      \(q_0\) &   1 & 1 & R & \(q_0\) \\
+      \(q_0\) & \bl & 1 & L & \(q_1\) \\
+      \midrule
+      \(q_1\) &   0 &   0 & L & \(q_1\) \\
+      \(q_1\) &   1 &   1 & L & \(q_1\) \\
+      \(q_1\) & \bl & \bl & R & \(q_a\) \\
+      \bottomrule
+    \end{tabular}
+    \caption{Append a \(1\)}
+    \label{table:statetable}
+  \end{table}
+  In state \(q_0\), this machine scan from left to right across the input and puts a \(1\) in the blank cell at the end.
+  Then it moves to state \(q_1\) where it moves back from right to left, until it overshoots the original starting point by one cell and then moves right one cell to that exact point.
+  Note the machine always accepts, no matter the input.
+  The net effect is that the head is back in the same starting point on the tape and a \(1\) has been appended to the original input on the tape.
+  Giving this new input to the Turing machine in Table \ref{table:statetable} will lead to an accept if the original input contained an odd number of ones and reject otherwise.
 
 
 
