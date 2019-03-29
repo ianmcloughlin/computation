@@ -106,8 +106,9 @@ Start with any set, call it an alphabet and denote it by \( A \).
   A decider takes a finite number of steps before halting on a given input.
   We are typically interested in knowing the maximum number of steps \( f(n) \) the decider takes on all inputs of length \( n \).
   We use the number of steps as a proxy for time --- it's common to call the number of steps the \emph{time} the Turing machine takes.
+  We can often express \( f(n) \) using a simple formula.
+  For example, the Turing machine in Table \ref{table:statetable} takes \( f(n) = n + 1 \) steps on every input --- reading every symbol of the input and the blank after it before halting.
   
-  We can often express \( f(n) \) using a simple formula, such as \( f(n) = 2n + 2 \).
   We are interested in knowing how \( f(n) \) grows in relation to \( n \).
   For this, we use big-O notation:
   \begin{definition}
@@ -214,7 +215,7 @@ Start with any set, call it an alphabet and denote it by \( A \).
       \bottomrule
     \end{tabular}
     \caption{Append a \(1\)}
-    \label{table:statetable}
+    \label{table:oddparity}
   \end{table}
   In state \(q_0\), this machine scan from left to right across the input and puts a \(1\) in the blank cell at the end.
   Then it moves to state \(q_1\) where it moves back from right to left, until it overshoots the original starting point by one cell and then moves right one cell to that exact point.
@@ -222,6 +223,16 @@ Start with any set, call it an alphabet and denote it by \( A \).
   The net effect is that the head is back in the same starting point on the tape and a \(1\) has been appended to the original input on the tape.
   Giving this new input to the Turing machine in Table \ref{table:statetable} will lead to an accept if the original input contained an odd number of ones and reject otherwise.
 
+  How many steps \( f(n) \) does the Turing machine in Table \ref{table:oddparity} take on an input of length \( n \)?
+  It scans across the input, then reads the blank at the end and moves left, back to the last symbol of the original input.
+  That takes \( n + 1 \) steps.
+  It then scans to the start of the input and reads the blank just beyond that before accepting, taking another \( n + 1 \) steps.
+  It total, that's \( f(n) = 2n+2 \) steps --- a polynomial.
+
+  What we have shown is that the \texttt{ODDPARITY} decision problem can be converted into \texttt{EVENPARITY} decision in polynomial time.
+  By converted into, we mean that anything in \texttt{ODDPARITY} is converted into something in \texttt{EVENPARITY} and anything not in \texttt{ODDPARITY} is converted into something not in \texttt{EVENPARITY} so that the decider for \texttt{EVENPARITY} can decide \texttt{ODDPARITY}.
+  The fact that the conversion happens in polynomial time is significant, as the sum of two polynomials is a polynomial.
+  Thus if \texttt{EVENPARITY} is in \CC{P} then so is \texttt{ODDPARITY}.
 
 
 \section{\CC{COMPLETE}}
