@@ -217,11 +217,12 @@ Start with any set, call it an alphabet and denote it by \( A \).
     \caption{Append a \(1\)}
     \label{table:oddparity}
   \end{table}
-  In state \(q_0\), this machine scan from left to right across the input and puts a \(1\) in the blank cell at the end.
+  In state \(q_0\), this machine scans from left to right across the input and puts a \(1\) in the blank cell at the end.
   Then it moves to state \(q_1\) where it moves back from right to left, until it overshoots the original starting point by one cell and then moves right one cell to that exact point.
   Note the machine always accepts, no matter the input.
   The net effect is that the head is back in the same starting point on the tape and a \(1\) has been appended to the original input on the tape.
   Giving this new input to the Turing machine in Table \ref{table:statetable} will lead to an accept if the original input contained an odd number of ones and reject otherwise.
+  We call this a reduction from \texttt{ODDPARITY} to \texttt{EVENPARITY}, denoted as \texttt{ODDPARITY} \( \leq \) \texttt{EVENPARITY}
 
   How many steps \( f(n) \) does the Turing machine in Table \ref{table:oddparity} take on an input of length \( n \)?
   It scans across the input, then reads the blank at the end and moves left, back to the last symbol of the original input.
@@ -233,10 +234,25 @@ Start with any set, call it an alphabet and denote it by \( A \).
   By converted into, we mean that anything in \texttt{ODDPARITY} is converted into something in \texttt{EVENPARITY} and anything not in \texttt{ODDPARITY} is converted into something not in \texttt{EVENPARITY} so that the decider for \texttt{EVENPARITY} can decide \texttt{ODDPARITY}.
   The fact that the conversion happens in polynomial time is significant, as the sum of two polynomials is a polynomial.
   Thus if \texttt{EVENPARITY} is in \CC{P} then so is \texttt{ODDPARITY}.
+  This essentially means that \texttt{ODDPARITY} is no more difficult to decide than \texttt{EVENPARITY}.
 
+  Note a quirk in this situation: \texttt{EVENPARITY} can be reduced to \texttt{ODDPARITY} using the same set up.
+  The two problems are considered equivalent.
+  This is not always the case --- sometimes we can only reduce in one direction.
 
 \section{\CC{COMPLETE}}
+  In 1971, Stephen Cook proved~\cite{cook71} an interesting result: there is a language to which all of the languages in \cc{NP} can be reduced in polynomial time.
+  Since then, a number of languages have been shown to have this property.
+  They are called \cc{NP-HARD} because they are at least as hard as each of the languages in \cc{NP}.
+  The language that Cook used is itself in \cc{NP}.
+  Languages that are both \cc{NP-HARD} and in \cc{NP} themselves are called \cc{NP-COMPLETE}.
+  
+
 
 \section{Undecidable problems}
+
+
+\bibliographystyle{ieeetran}
+\bibliography{bibliography.bib}
 
 \end{document}
