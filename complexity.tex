@@ -241,15 +241,24 @@ Start with any set, call it an alphabet and denote it by \( A \).
   This is not always the case --- sometimes we can only reduce in one direction.
 
 \section{\CC{COMPLETE}}
-  In 1971, Stephen Cook proved~\cite{cook71} an interesting result: there is a language to which all of the languages in \cc{NP} can be reduced in polynomial time.
+  In 1971, Stephen Cook proved~\cite{cook71} an interesting result: there is a language to which all of the languages in \CC{NP} can be reduced in polynomial time.
   Since then, a number of languages have been shown to have this property.
-  They are called \cc{NP-HARD} because they are at least as hard as each of the languages in \cc{NP}.
-  The language that Cook used is itself in \cc{NP}.
-  Languages that are both \cc{NP-HARD} and in \cc{NP} themselves are called \cc{NP-COMPLETE}.
-  
+  They are called \CC{NP-HARD} because they are at least as hard as each of the languages in \CC{NP}.
+  The language that Cook used is itself in \CC{NP}.
+  Languages that are both \CC{NP-HARD} and in \CC{NP} themselves are called \CC{NP-COMPLETE}.
 
+  The specific language that Cook demonstrated was \CC{NP-COMPLETE} is called \texttt{SAT}, which is short for \emph{Boolean satisfiability problem}.
+  The language is made up of well-formed Boolean formulas.
+  These are made up of a finite number of Boolean variables that can take either of the values \texttt{True} or \texttt{False}, the two binary operators \texttt{AND} and \texttt{OR}, and the unary operator \texttt{NOT}.
+  The \texttt{AND} operator is denoted \( \wedge \) where, for two Boolean variables \( A \) and \( B \), \( A \wedge B \) is \texttt{True} if and only if both \( A \) and \( B \) are.
+  The \texttt{OR} operator is denoted \( \vee \) where \( A \vee B \) is \texttt{True} if any of \( A \) and \( B \) are, including if both are.
+  Finally, \texttt{NOT} is denoted \( \neg \) and \( \neg A \) is True when \( A \) is false and vice versa.
+  We can define well-formed formulas by saying that variables and the above three operators as described are well-formed formulas, and then allowing the substitution of well-formed formulas for the \( A \)'s and \( B \)'s in the above using brackets as necessary to show precedence.
+  A formula is said to be satisfiable if there is some setting of the variables within the formula that makes it \texttt{True}.
+  The language \texttt{SAT} is then the set of all satisfiable well-formed formulas\footnote{There is a slight technicality here in that the number of variables in the language is possibly infinite. Alphabets must be finite, so the variables themselves cannot be in the alphabet. We can get around this by encoding the variables using a finite alphabet.}.
 
-\section{Undecidable problems}
+%\section{Undecidable problems}
+%  Turing showed that some languages 
 
 
 \bibliographystyle{ieeetran}
