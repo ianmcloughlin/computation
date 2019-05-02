@@ -1,2 +1,2 @@
 # Notes on computation
-** Ian McLoughlin
+**Ian McLoughlin**
