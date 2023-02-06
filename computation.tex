@@ -1,23 +1,17 @@
-\input{preamble.tex}
+\documentclass{iansnotes}
 
 \title{Computation}
 \author{ian.mcloughlin@gmit.ie}
 \date{\today}
 
-\newcommand{\CC}[1]{\textbf{#1}}
-
 \begin{document}
 
 \maketitle
- 
-\begin{abstract}
-  The following notes are about computation.
   We consider the limits and efficiency of computation.
   We are largely only interested in syntax.
-\end{abstract}
 
 \section{Languages}
-Start with any set, call it an alphabet and denote it by \( A \).
+  Start with any set, call it an alphabet and denote it by \( A \).
   For example, take the set A = \{ 0, 1 \} is an alphabet.
   We define strings of length \( i \) over \( A \) recursively:
   \[
@@ -30,7 +24,6 @@ Start with any set, call it an alphabet and denote it by \( A \).
   The Kleene star \( A^* \) of the alphabet \( A \) is then union of all \( A^i \) for \( i \in \mathbb{N}_0 \).
   Here \( \mathbb{N}_0 \) is the set of natural numbers including zero: \( \mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \} \).
   \[ A^* = \bigcup_{i \in \mathbb{N}_0} A^i\]
-
   A language \( L \) over an alphabet \( A \) is a subset of \( A^* \): \( L \subseteq A^* \).
   Note that the strings in a language all have finite length.
 
@@ -40,19 +33,20 @@ Start with any set, call it an alphabet and denote it by \( A \).
   The head is over a single cell of the tape and is in any one of a finite number of states at a given point in time.
   Turing machines perform one small step at a time, which involves reading the symbol in the current cell, overwriting it with a symbol, moving to the cell to the left or right, and changing state.
 
-  We define a (deterministic\footnote{All Turing machines will be assumed to be deterministic until we get to section \ref{sect:nondet}.}) Turing machine \( M \) by a 7-tuple:
+  We define a (deterministic\footnote{All Turing machines will be assumed to be deterministic until specified later.}) Turing machine \( M \) by a 7-tuple $M$:
   \[ M = ( Q, \Sigma, \Gamma, \delta, q_0, q_a, q_f ) \]
-  where:
-  \( Q \) is a set of states;
-  \( \Sigma \) is the input alphabet, not containing the blank symbol \( \sqcup \);
-  \( \Gamma \) is the tape alphabet, a superset of \( \Sigma \) containing \( \sqcup \);
-  \( \delta \) is a map:
-  \[ \delta: (Q \setminus \{ q_a, q_f \}) \times \Gamma \rightarrow \Gamma \times \{ L, R \} \times Q; \]
-  \( q_0 \) is the initial states;
-  \( q_a \) is the accept state, which is a terminal state;
-  \( q_f \) is the reject state, also a terminal state.  
-  
-  Before the Turing machines begins its operation, a finite number of consecutive non-blank cells contain symbols and the head is over the left-most of these.
+  where
+\begin{description}
+  \item $Q$ is a set of states;
+  \item $\Sigma$ is the input alphabet, not containing the blank symbol \( \sqcup \);
+  \item $\Gamma$ is the tape alphabet, a superset of \( \Sigma \) containing \( \sqcup \);
+  \item $\delta$ is a map: $\delta: (Q \setminus \{ q_a, q_f \}) \times \Gamma \rightarrow \Gamma \times \{ L, R \} \times Q;$
+  \item $q_0$ is the initial states;
+  \item $q_a$ is the accept state, which is a terminal state;
+  \item $q_f$ is the reject state, also a terminal state.  
+\end{description}
+
+  Before the Turing machine begins its operations, a finite number of consecutive non-blank cells contain symbols and the head is over the left-most of these.
   These non-empty cells form the Turing machine's input and can be viewed as a string.
 
   When the Turing machine operates on an input, there are three possibilities.
@@ -69,12 +63,13 @@ Start with any set, call it an alphabet and denote it by \( A \).
   A Turing machine can be summarised in five-columned table called a state table.
   Each row of the table describes how to perform the transition function \( \delta \) for a given state and tape symbol.
   Table \ref{table:statetable} gives an example of a state table for a Turing machine that accepts all strings over the alphabet \( \{0, 1\} \) that contain an even number of \(1\)'s, including zero as an even number. 
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{x{1cm}x{1cm}x{1cm}x{1cm}x{1cm}}
-      \toprule
-      State & Input & Write & Move & Next \\
-      \midrule
+
+\begin{table}
+  \centering
+  \begin{tabular}{@{}x{12mm}x{12mm}x{12mm}x{12mm}x{12mm}}
+    \toprule
+    State & Input & Write & Move & Next \\
+    \midrule
       \(q_0\) &   0 &   0 & R & \(q_0\) \\
       \(q_0\) &   1 &   1 & R & \(q_1\) \\
       \(q_0\) & \bl & \bl & L & \(q_a\) \\
@@ -84,9 +79,11 @@ Start with any set, call it an alphabet and denote it by \( A \).
       \(q_1\) & \bl & \bl & L & \(q_f\) \\
       \bottomrule
     \end{tabular}
-    \caption{Turing machine state table}
+    \caption{Even parity Turing machine.}
     \label{table:statetable}
   \end{table}
+  \vspace{4mm}
+
   Provided we adopt some conventions, the state table can be used to describe the whole Turing machine.
   First, the initial state is the first one listed in the table.
   Second, the tape alphabet is given by the distinct symbols in the second column.
@@ -111,20 +108,16 @@ Start with any set, call it an alphabet and denote it by \( A \).
   
   We are interested in knowing how \( f(n) \) grows in relation to \( n \).
   For this, we use big-O notation:
-  \begin{definition}
-    A function \( f(n) \) is said to be \( O(g(n)) \) if there exist two positive integers \( c \) and \( n_0 \) such that \( cg(n) \geq f(n) \) for all \(n \geq n_0 \).
-  \end{definition}
+  \newthought{A function} \( f(n) \) is said to be \( O(g(n)) \) if there exist two positive integers \( c \) and \( n_0 \) such that \( cg(n) \geq f(n) \) for all \(n \geq n_0 \).
   In the previous example, \( f(n) = 2n + 2 \) is \( O(n) \) which can be seen by setting \( g(n) = n \), \( c = 3 \) and \( n_0 = 2 \) as per Fig. \ref{plot:2n2}.
-  \begin{figure}[H]
+
   \begin{tikzpicture}
     \begin{axis}[xmin=0, xmax=6, ymin=0, ymax=20, axis lines = left]
     \addplot[smooth, domain=0:6] {2*\x + 2} node[below right, pos=0.8] (endofplotsquare) {\(2n+2\)} ;
     \addplot[smooth, domain=0:6] {3*\x}     node[above left,  pos=0.9] (endofplotsquare) {\(3n\)} ;
     \end{axis}
   \end{tikzpicture}
-  \caption{\( 2n + 2 \) is \( O(n) \)}
-  \label{plot:2n2}
-  \end{figure}
+
   We usually define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O(f(n) \) steps.
 
 \section{\CC{P}}
@@ -199,12 +192,13 @@ Start with any set, call it an alphabet and denote it by \( A \).
   A simple Turing machine decides this language, as per Table \ref{table:statetable}.
   
   We can use this Turing machine to decide the language \texttt{ODDPARITY}, containing all strings over \( A \) that contain an odd number of \(1\)'s, provided we use the machine given in Table \ref{table:oddparity} on the input first.
-  \begin{table}[H]
+  
+  \begin{table}
     \centering
-    \begin{tabular}{x{1cm}x{1cm}x{1cm}x{1cm}x{1cm}}
-      \toprule
-      State & Input & Write & Move & Next \\
-      \midrule
+  \begin{tabular}{@{}x{12mm}x{12mm}x{12mm}x{12mm}x{12mm}}
+    \toprule
+    State & Input & Write & Move & Next \\
+    \midrule
       \(q_0\) &   0 & 0 & R & \(q_0\) \\
       \(q_0\) &   1 & 1 & R & \(q_0\) \\
       \(q_0\) & \bl & 1 & L & \(q_1\) \\
@@ -214,9 +208,11 @@ Start with any set, call it an alphabet and denote it by \( A \).
       \(q_1\) & \bl & \bl & R & \(q_a\) \\
       \bottomrule
     \end{tabular}
-    \caption{Append a \(1\)}
+    \caption{Append a 1 Turing machine.}
     \label{table:oddparity}
   \end{table}
+  \vspace{4mm}
+
   In state \(q_0\), this machine scans from left to right across the input and puts a \(1\) in the blank cell at the end.
   Then it moves to state \(q_1\) where it moves back from right to left, until it overshoots the original starting point by one cell and then moves right one cell to that exact point.
   Note the machine always accepts, no matter the input.
@@ -241,7 +237,7 @@ Start with any set, call it an alphabet and denote it by \( A \).
   This is not always the case --- sometimes we can only reduce in one direction.
 
 \section{\CC{COMPLETE}}
-  In 1971, Stephen Cook proved~\cite{cook71} an interesting result: there is a language to which all of the languages in \CC{NP} can be reduced in polynomial time.
+  In 1971, Stephen Cook proved~\autocite{cook71} an interesting result: there is a language to which all of the languages in \CC{NP} can be reduced in polynomial time.
   Since then, a number of languages have been shown to have this property.
   They are called \CC{NP-HARD} because they are at least as hard as each of the languages in \CC{NP}.
   The language that Cook used is itself in \CC{NP}.
@@ -260,8 +256,5 @@ Start with any set, call it an alphabet and denote it by \( A \).
 %\section{Undecidable problems}
 %  Turing showed that some languages 
 
-
-\bibliographystyle{ieeetran}
-\bibliography{bibliography.bib}
 
 \end{document}

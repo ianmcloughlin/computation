@@ -1,0 +1,29 @@
+\documentclass{iansnotes}
+
+\title{Ian's Notes}
+\author{ian.mcloughlin@atu.ie}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+  \begin{tikzpicture}
+    \graph [nodes={fill=atuorange, circle}, edges={draw=atunavy, thick}, counterclockwise, empty nodes, radius=16mm, n=6, phase=0] {
+      subgraph C_n []
+    };
+    \begin{scope}[shift={(32mm,0)}]
+      \graph [nodes={fill=atuorange, circle}, edges={draw=atunavy, thick}, counterclockwise, empty nodes, radius=16mm, n=6, phase=0] {
+        subgraph C_n []
+      };
+    \end{scope}
+  \end{tikzpicture}
+\end{center}
+
+Wow.
+
+\section{A Note}
+  We will use Norman Biggs' \emph{Discrete Mathematics}\autocite{biggs}
+
+\end{document} 
