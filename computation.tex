@@ -11,8 +11,8 @@
   We are largely only interested in syntax.
 
 \section{Languages}
-  Start with any set, call it an alphabet and denote it by \( A \).
-  For example, take the set A = \{ 0, 1 \} is an alphabet.
+  Start with any set, call it an alphabet, and denote it by \( A \).
+  For example, take the set A = \{ 0, 1 \} as an alphabet.
   We define strings of length \( i \) over \( A \) recursively:
   \[
     A^0 = \{ \epsilon \}; \ 
@@ -29,9 +29,11 @@
 
 \section{Turing machines}
   Turing machines encapsulate the concept of a computer.
-  They are simple machines, consisting of a single read/write head and an infinite tape of cells, all but a finite number of which are blank.  
+  They are simple machines, consisting of a single read/write head and an infinite tape of cells.
   The head is over a single cell of the tape and is in any one of a finite number of states at a given point in time.
   Turing machines perform one small step at a time, which involves reading the symbol in the current cell, overwriting it with a symbol, moving to the cell to the left or right, and changing state.
+  Each Turing machine is defined by a set of rules.
+  Creating these rules is analogous to writing a computer program.
 
   We define a (deterministic\footnote{All Turing machines will be assumed to be deterministic until specified later.}) Turing machine \( M \) by a 7-tuple $M$:
   \[ M = ( Q, \Sigma, \Gamma, \delta, q_0, q_a, q_f ) \]
@@ -47,7 +49,8 @@
 \end{description}
 
   Before the Turing machine begins its operations, a finite number of consecutive non-blank cells contain symbols and the head is over the left-most of these.
-  These non-empty cells form the Turing machine's input and can be viewed as a string.
+  These non-empty cells form the Turing machine's input.
+  They form a string over the alphabet $\Sigma$.
 
   When the Turing machine operates on an input, there are three possibilities.
   The first two are similar: the machine can accept the input by ending in the accept state or the machine can reject the input by ending in the reject state.
@@ -60,16 +63,16 @@
   Note it's possible for two distinct Turing machines \( M_1 \) and \( M_2 \) to accept or decide the same language: \( L( M_1 ) = L( M_2 ) \).
 
 \section{State tables}
-  A Turing machine can be summarised in five-columned table called a state table.
+  A Turing machine can be summarised in a five-columned table called a state table.
   Each row of the table describes how to perform the transition function \( \delta \) for a given state and tape symbol.
-  Table \ref{table:statetable} gives an example of a state table for a Turing machine that accepts all strings over the alphabet \( \{0, 1\} \) that contain an even number of \(1\)'s, including zero as an even number. 
+  Table~\ref{table:statetable} gives an example of a state table for a Turing machine that accepts all strings over the alphabet \( \{0, 1\} \) that contain an even number of \(1\)'s, including zero as an even number. 
 
-\begin{table}
-  \centering
-  \begin{tabular}{@{}x{12mm}x{12mm}x{12mm}x{12mm}x{12mm}}
-    \toprule
-    State & Input & Write & Move & Next \\
-    \midrule
+  \begin{table}
+    \centering
+    \begin{tabular}{ccccc}
+      \toprule
+      State & Input & Write & Move & Next \\
+      \midrule
       \(q_0\) &   0 &   0 & R & \(q_0\) \\
       \(q_0\) &   1 &   1 & R & \(q_1\) \\
       \(q_0\) & \bl & \bl & L & \(q_a\) \\
@@ -103,22 +106,27 @@
   A decider takes a finite number of steps before halting on a given input.
   We are typically interested in knowing the maximum number of steps \( f(n) \) the decider takes on all inputs of length \( n \).
   We use the number of steps as a proxy for time --- it's common to call the number of steps the \emph{time} the Turing machine takes.
-  We can often express \( f(n) \) using a simple formula.
-  For example, the Turing machine in Table \ref{table:statetable} takes \( f(n) = n + 1 \) steps on every input --- reading every symbol of the input and the blank after it before halting.
   
+  We can often express \( f(n) \) using a simple formula.
+  For example, the Turing machine in Table \ref{table:statetable} takes \( f(n) = n + 1 \) steps on every input --- reading every symbol of the input and the blank after it before halting.  
   We are interested in knowing how \( f(n) \) grows in relation to \( n \).
-  For this, we use big-O notation:
-  \newthought{A function} \( f(n) \) is said to be \( O(g(n)) \) if there exist two positive integers \( c \) and \( n_0 \) such that \( cg(n) \geq f(n) \) for all \(n \geq n_0 \).
-  In the previous example, \( f(n) = 2n + 2 \) is \( O(n) \) which can be seen by setting \( g(n) = n \), \( c = 3 \) and \( n_0 = 2 \) as per Fig. \ref{plot:2n2}.
+  For this, we use big-O notation.
 
+  A function \( f(n) \) is said to be \( O(g(n)) \) if there exist two positive integers \( c \) and \( n_0 \) such that \( cg(n) \geq f(n) \) for all \(n \geq n_0 \).
+  In the previous example, \( f(n) = 2n + 2 \) is \( O(n) \) which can be seen by setting \( g(n) = n \), \( c = 3 \) and \( n_0 = 2 \) as per Figure~\ref{figure:bigo}.
+
+  \begin{figure}
   \begin{tikzpicture}
     \begin{axis}[xmin=0, xmax=6, ymin=0, ymax=20, axis lines = left]
     \addplot[smooth, domain=0:6] {2*\x + 2} node[below right, pos=0.8] (endofplotsquare) {\(2n+2\)} ;
     \addplot[smooth, domain=0:6] {3*\x}     node[above left,  pos=0.9] (endofplotsquare) {\(3n\)} ;
     \end{axis}
   \end{tikzpicture}
+  \caption{Big-O notation.}
+  \label{figure:bigo}
+\end{figure}
 
-  We usually define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O(f(n) \) steps.
+  We usually define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O\left(f(n)\right) \) steps.
 
 \section{\CC{P}}
   We denote by \CC{P} the set of languages that are each decidable by some Turing machine in \( O(n^k) \) steps for some \( n \in \mathbb{N} \) where \( \mathbb{N} \) is the set of natural numbers without zero, \( \{ 1, 2, 3, \ldots\} \).
