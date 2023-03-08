@@ -1,7 +1,7 @@
 \documentclass{iansnotes}
 
 \title{Computation}
-\author{ian.mcloughlin@gmit.ie}
+\author{ian.mcloughlin@atu.ie}
 \date{\today}
 
 \begin{document}
@@ -11,56 +11,74 @@
   We are largely only interested in syntax.
 
 \section{Languages}
-  Start with any set, call it an alphabet, and denote it by \( A \).
-  For example, take the set A = \{ 0, 1 \} as an alphabet.
-  We define strings of length \( i \) over \( A \) recursively:
-  \[
-    A^0 = \{ \epsilon \}; \ 
-    A^1 = A; \ 
-    A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}
-  \]
-  The \( \epsilon \) stands for the empty string\footnote{It's notoriously difficult to depict.}.
+  Start with any finite set $A$ and call it an alphabet.
+  For example, the set $A = \{ 0, 1 \}$.
+  We define strings of length \( i \) over \( A \) recursively.
+  The $\epsilon$ stands for the empty string\footnote{It's notoriously difficult to depict.}.
 
+  \[A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \quad i \in \mathbb{N}\]
+  
   The Kleene star \( A^* \) of the alphabet \( A \) is then union of all \( A^i \) for \( i \in \mathbb{N}_0 \).
-  Here \( \mathbb{N}_0 \) is the set of natural numbers including zero: \( \mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \} \).
+  As usual, \( \mathbb{N}_0 \) is the set of natural numbers including zero\footnote{\(\mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \}\)}.
   \[ A^* = \bigcup_{i \in \mathbb{N}_0} A^i\]
-  A language \( L \) over an alphabet \( A \) is a subset of \( A^* \): \( L \subseteq A^* \).
-  Note that the strings in a language all have finite length.
+
+  A language \( L \) over an alphabet \( A \) is a subset of \( A^* \):\( L \subseteq A^* \).
+  A language can be finite like $L_1 = \{00, 11, 000, 111 \}$ or infinite like the language $L_2$ of binary representations\footnote{We will use the usual representation with the most significant bit at the left and no leading 0's.} of the prime numbers.
+  \[ L_2 = \{10, 11, 101, 111, 1011, \ldots \}\]
+  Note that the strings in a language all have finite length whether the language is finite or infinite.
+  The length of a string $s$ is denoted $|s|$.
+  For example, $|0011| = 4$ and $|\epsilon| = 0$.
 
 \section{Turing machines}
-  Turing machines encapsulate the concept of a computer.
-  They are simple machines, consisting of a single read/write head and an infinite tape of cells.
-  The head is over a single cell of the tape and is in any one of a finite number of states at a given point in time.
-  Turing machines perform one small step at a time, which involves reading the symbol in the current cell, overwriting it with a symbol, moving to the cell to the left or right, and changing state.
-  Each Turing machine is defined by a set of rules.
+  Turing machines encapsulate the concept of computation.
+  Designed to be as simple as possible, they consist of a single read/write head, an infinite tape of cells that can contain symbols from an alphabet, and a table of instructions.
+
+  At any point in time, the head is over a single cell of the tape and is in any one of a finite number of states.
+  The cell contains some symbol from an alphabet called the tape alphabet.
+  A special symbol denotes an empty cell, called the blank symbol\footnote{You can say the cell is empty in that case, if you want.}.
+
+  Turing machines perform one step at a time, which involves reading the symbol in the current cell, overwriting it with a symbol\footnote{Possibly the same symbol, another way of saying the symbol stays in the cell unchanged.}, moving to the cell to the left or right, and changing state\footnote{Again, possibly changing to the same state it is already in -- another way of saying it stays in the same state.}.
+  
+  Each Turing machine is defined by a set of rules given in a table called a state table.
+  The table tells the machine what to do for the given state it is in and the given symbol in the current cell.
   Creating these rules is analogous to writing a computer program.
 
   We define a (deterministic\footnote{All Turing machines will be assumed to be deterministic until specified later.}) Turing machine \( M \) by a 7-tuple $M$:
   \[ M = ( Q, \Sigma, \Gamma, \delta, q_0, q_a, q_f ) \]
   where
 \begin{description}
-  \item $Q$ is a set of states;
+  \item $Q$ is a finite set of states;
   \item $\Sigma$ is the input alphabet, not containing the blank symbol \( \sqcup \);
   \item $\Gamma$ is the tape alphabet, a superset of \( \Sigma \) containing \( \sqcup \);
   \item $\delta$ is a map: $\delta: (Q \setminus \{ q_a, q_f \}) \times \Gamma \rightarrow \Gamma \times \{ L, R \} \times Q;$
-  \item $q_0$ is the initial states;
-  \item $q_a$ is the accept state, which is a terminal state;
+  \item $q_0$ is the initial state;
+  \item $q_a$ is the accept state, which is a terminal state\footnote{A terminal state stops the machine -- a terminal state has no rules in the state table.};
   \item $q_f$ is the reject state, also a terminal state.  
 \end{description}
 
   Before the Turing machine begins its operations, a finite number of consecutive non-blank cells contain symbols and the head is over the left-most of these.
   These non-empty cells form the Turing machine's input.
-  They form a string over the alphabet $\Sigma$.
+  They must form a string over the alphabet $\Sigma$.
+  The Turing machine head starts at the left-most cell containing the input.
+  All of the other cells on the tape are blank.
+  The machine can find the end of the input -- if it wants to -- by moving right until it encounters a blank cell.
 
   When the Turing machine operates on an input, there are three possibilities.
-  The first two are similar: the machine can accept the input by ending in the accept state or the machine can reject the input by ending in the reject state.
-  In these cases the machine stops upon entering these states, which is usually called halting.
+  The first two are similar: the machine can accept the input by ending in the accept state $q_a$ or it can reject the input by ending in the fail state $q_f$.
+  In these cases the machine stops upon entering these states, which is often called halting.
   The third possibility is that the machine might never stop operating.
+
+  Note that the set of states and the tape alphabet are both finite, so the number of rules for the machine (the state table) is finite too.
+  Thus for the machine to not halt, it must get caught in some form of infinite loop.
   
   The subset of \( \Sigma^* \) (the Kleene star of the input alphabet) containing all elements that are accepted by the Turing machine \( M \) is called the language of the Turing machine \( L(M) \):
   \[ L(M) \subseteq \Sigma^* \]
   A Turing machine that halts on all inputs is called a decider and is said to decide its language.
-  Note it's possible for two distinct Turing machines \( M_1 \) and \( M_2 \) to accept or decide the same language: \( L( M_1 ) = L( M_2 ) \).
+  
+  Note it is possible for two different Turing machines \( M_1 \) and \( M_2 \) to accept or decide the same language: \( L( M_1 ) = L( M_2 ) \).
+  There is nothing surprising about that.
+  We think of a Turing machine as representing (or being) an algorithm.
+  Lots of common computational problems have several different common algorithms to solve them\footnote{For example, to sort a list we can use quick sort, bubble sort, or heap sort, among others.}.
 
 \section{State tables}
   A Turing machine can be summarised in a five-columned table called a state table.
