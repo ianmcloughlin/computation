@@ -123,4 +123,4 @@
 \addbibresource{bibliography.bib}
 
 % Complexity classes font.
-\newcommand{\CC}[1]{\textsf{#1}}
+\newcommand{\CC}[1]{\textsc{#1}}

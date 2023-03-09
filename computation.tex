@@ -12,17 +12,17 @@
 
 \section{Languages}
   Start with any finite set $A$ and call it an alphabet.
-  For example, the set $A = \{ 0, 1 \}$.
-  We define strings of length \( i \) over \( A \) recursively.
+  For example, the set $A = \{0, 1\}$.
+  We define strings of length $i$ over $A$ recursively.
   The $\epsilon$ stands for the empty string\footnote{It's notoriously difficult to depict.}.
 
-  \[A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \quad i \in \mathbb{N}\]
+$$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \quad i \in \mathbb{N} $$
   
-  The Kleene star \( A^* \) of the alphabet \( A \) is then union of all \( A^i \) for \( i \in \mathbb{N}_0 \).
-  As usual, \( \mathbb{N}_0 \) is the set of natural numbers including zero\footnote{\(\mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \}\)}.
+  The Kleene star $A^*$ of the alphabet $A$ is then union of all $A^i$ for $i \in \mathbb{N}_0$.
+  As usual, $\mathbb{N}_0$ is the set of natural numbers including zero\footnote{\(\mathbb{N}_0 = \{ 0, 1, 2, 3, \ldots \}\)}.
   \[ A^* = \bigcup_{i \in \mathbb{N}_0} A^i\]
 
-  A language \( L \) over an alphabet \( A \) is a subset of \( A^* \):\( L \subseteq A^* \).
+  A language $L$ over an alphabet $A$ is a subset of $A^*$:$L \subseteq A^*$.
   A language can be finite like $L_1 = \{00, 11, 000, 111 \}$ or infinite like the language $L_2$ of binary representations\footnote{We will use the usual representation with the most significant bit at the left and no leading 0's.} of the prime numbers.
   \[ L_2 = \{10, 11, 101, 111, 1011, \ldots \}\]
   Note that the strings in a language all have finite length whether the language is finite or infinite.
@@ -43,13 +43,13 @@
   The table tells the machine what to do for the given state it is in and the given symbol in the current cell.
   Creating these rules is analogous to writing a computer program.
 
-  We define a (deterministic\footnote{All Turing machines will be assumed to be deterministic until specified later.}) Turing machine \( M \) by a 7-tuple $M$:
+  We define a (deterministic\footnote{All Turing machines will be assumed to be deterministic until specified later.}) Turing machine $M$ by a 7-tuple $M$:
   \[ M = ( Q, \Sigma, \Gamma, \delta, q_0, q_a, q_f ) \]
   where
 \begin{description}
   \item $Q$ is a finite set of states;
-  \item $\Sigma$ is the input alphabet, not containing the blank symbol \( \sqcup \);
-  \item $\Gamma$ is the tape alphabet, a superset of \( \Sigma \) containing \( \sqcup \);
+  \item $\Sigma$ is the input alphabet, not containing the blank symbol $\sqcup$;
+  \item $\Gamma$ is the tape alphabet, a superset of $\Sigma$ containing $\sqcup$;
   \item $\delta$ is a map: $\delta: (Q \setminus \{ q_a, q_f \}) \times \Gamma \rightarrow \Gamma \times \{ L, R \} \times Q;$
   \item $q_0$ is the initial state;
   \item $q_a$ is the accept state, which is a terminal state\footnote{A terminal state stops the machine -- a terminal state has no rules in the state table.};
@@ -71,18 +71,18 @@
   Note that the set of states and the tape alphabet are both finite, so the number of rules for the machine (the state table) is finite too.
   Thus for the machine to not halt, it must get caught in some form of infinite loop.
   
-  The subset of \( \Sigma^* \) (the Kleene star of the input alphabet) containing all elements that are accepted by the Turing machine \( M \) is called the language of the Turing machine \( L(M) \):
+  The subset of $\Sigma^*$ (the Kleene star of the input alphabet) containing all elements that are accepted by the Turing machine $M$ is called the language of the Turing machine $L(M)$:
   \[ L(M) \subseteq \Sigma^* \]
   A Turing machine that halts on all inputs is called a decider and is said to decide its language.
   
-  Note it is possible for two different Turing machines \( M_1 \) and \( M_2 \) to accept or decide the same language: \( L( M_1 ) = L( M_2 ) \).
+  Note it is possible for two different Turing machines $M_1$ and $M_2$ to accept or decide the same language: $L( M_1 ) = L( M_2 )$.
   There is nothing surprising about that.
   We think of a Turing machine as representing (or being) an algorithm.
   Lots of common computational problems have several different common algorithms to solve them\footnote{For example, to sort a list we can use quick sort, bubble sort, or heap sort, among others.}.
 
 \section{State tables}
   A Turing machine can be encapsulated in a five-columned table called a state table.
-  Each row of the table specifies the transition function \( \delta \) for a given state and tape symbol.
+  Each row of the table specifies the transition function $\delta$ for a given state and tape symbol.
   Table~\ref{table:statetable} gives an example of a state table.
   This Turing machine accepts all strings over the alphabet $\{0, 1\}$ that contain an even number of \(1\)'s, including zero as an even number. 
 
@@ -120,9 +120,9 @@
 \section{Decision problems}
   A Turing machine that always halts, irrespective of the input, is called a decider.  
   A decider makes a binary choice for a given input: accept or reject.
-  The Turing machine \( M \) in this case performs a map:
+  The Turing machine $M$ in this case performs a map:
   \[ f:\Sigma^* \rightarrow \{ q_a, q_f \} \]
-  Sometimes this map is called an indicator function, as it indicates which elements of \( \Sigma^* \) are in \( L(M) \).
+  Sometimes this map is called an indicator function, as it indicates which elements of $\Sigma^*$ are in $L(M)$.
   The Turing machine is an algorithm that performs the map.
   
   A map from the Kleene star $A^*$ of an alphabet $A$ is called a decision problem.
@@ -132,10 +132,10 @@
 
 \section{Complexity}
   A decider takes a finite number of steps before halting on a given input.
-  Consider all of the strings in $\Sigma^*$ of some specified length $n$.
+  Consider all the strings in $\Sigma^*$ of some specified length $n$.
   For each of these strings, the decider might take a different number of steps.
 
-  We are typically interested in knowing the maximum number of steps \( f(n) \) the decider takes on inputs of length \( n \).
+  We are typically interested in knowing the maximum number of steps $f(n)$ the decider takes on inputs of length $n$.
   We use the number of steps as a proxy for time.
   It is common to call the number of steps the \emph{time} the Turing machine takes.
 
@@ -146,14 +146,17 @@
   Usually each clock cycle takes the same amount of time up a given precision, but not always.
   A clock cycle is analogous to us looking for the next step in a Turing machine's state table.
   
-  We can sometimes express the maximum number of steps a Turing machine takes on an input of length $n$ \( f(n) \) using an expression in $n$.
-  For example, the Turing machine in Table \ref{table:statetable} takes \( f(n) = n + 1 \) steps on every input.
-  It just reads every symbol of the input and a single blank at the end before halting.  
-  We are interested in knowing how \( f(n) \) grows in relation to \( n \).
+  We can sometimes express the maximum number of steps a Turing machine takes on an input of length $n$ as an expression $f(n)$.
+  For example, the Turing machine in Table \ref{table:statetable} reads each symbol of the input in turn and then a single blank at the end before halting.
+  So, it takes $f(n) = n + 1$ steps on every input of length $n$.
+  
+    
+  We are interested in knowing how $f(n)$ grows in relation to $n$.
   For this, we use big-O notation.
+  A function $f(n)$ is said to be big-O\footnote{$f(n)$ is $O(g(n))$ if there exist $c$ and $n_0$ such that $cg(n) \geq f(n)$ for all $n \geq n_0$.} of a function $g(n)$ if there exist two positive integers $c$ and $n_0$ such that $cg(n) \geq f(n)$ for all \(n \geq n_0 \).
 
-  A function \( f(n) \) is said to be \( O(g(n)) \) if there exist two positive integers \( c \) and \( n_0 \) such that \( cg(n) \geq f(n) \) for all \(n \geq n_0 \).
-  In the previous example, \( f(n) = 2n + 2 \) is \( O(n) \) which can be seen by setting \( g(n) = n \), \( c = 3 \) and \( n_0 = 2 \) as per Figure~\ref{figure:bigo}.
+  In the previous example, $f(n) = 2n + 2$ is $O(n)$ which can be seen by setting $g(n) = n$, $c = 3$ and $n_0 = 2$.
+  The functions $f(n)$ and $cg(n) = cn$ are depicted in Figure~\ref{figure:bigo}.
   \begin{figure}
   \begin{tikzpicture}
     \begin{axis}[xmin=0, xmax=6, ymin=0, ymax=20, axis lines = left]
@@ -164,37 +167,42 @@
   \caption{Big-O notation.}
   \label{figure:bigo}
 \end{figure}
-  We can then define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O\left(f(n)\right) \) steps.
 
-\section{\CC{P}}
-  We denote by \CC{P} the set of languages that are each decidable by some Turing machine in \( O(n^k) \) steps for some \( n \in \mathbb{N} \) where \( \mathbb{N} \) is the set of natural numbers without zero, \( \{ 1, 2, 3, \ldots\} \).
-  Using the \CC{NTIME}\((f(n)) \) definition above, \CC{P} is equivalently defined as the union of \CC{NTIME}\((n^k)\) for all \( k \in \mathbb{N} \).
+\section{Polynomial Time}
+  We define the complexity class\footnote{A complexity class is a set of languages.} \CC{TIME}\((f(n)) \) as the set of all languages for which there is a decider that takes $O\left(f(n)\right)$ steps.
   
+  Possibly the most famous complexity class is \CC{P}, the set of languages that are each decidable by some deterministic Turing machine in $O(n^k)$ steps for some $n \in \mathbb{N}$ where $\mathbb{N}$ is the set of natural numbers without zero, $\{ 1, 2, 3, \ldots\}$.
+  Using the \CC{TIME}\((f(n)) \) definition, \CC{P} is equivalently defined as the union of \CC{TIME}$(n^k)$ for all $k \in \mathbb{N}$.
+  $$ \CC{P} = \bigcup_{k \in \mathbb{N}} \CC{TIME}(n^k)$$
   The \CC{P} is short for polynomial.
-  Here, we define a polynomial is an expression in a variable \( n \) made up of constants (elements on \( \mathbb{N}\)), powers of \( n \) to a constant, addition, subtraction and multiplication.
-  For example, \( n^5 + 2n + 4 \) is a polynomial whereas \( 2^n + n^2 + 5 \) is not because it is made up of something other than those elements listed above, namely \( 2^n \).
-
+  
+  We define a polynomial as an expression in a variable $n$ made up of constants, powers of $n$, addition, subtraction and multiplication.
+  For example, $n^5 + 2n + 4$ is a polynomial whereas $2^n + n^2 + 5$ is not because it is made up of something other than those elements listed above, namely $2^n$.
 
 
 \section{Non-determinism}
   \label{sect:nondet}
-  We consider now a modification to Turing machines: we allow the Turing machine to transition to zero or more states simultaneously from a given state when reading a given symbol.
+  We consider now a modification to Turing machines.
+  We will allow a Turing machine to transition to zero or more states simultaneously from a given state when reading a given symbol.
   This requires a modification to the transition function as follows:
    \[ \delta: Q \times \Gamma \rightarrow \Gamma \times \{ L, R \} \times \mathcal{P}(Q) \]
-   where \( \mathcal{P}(Q) \) is the powerset of \( Q \) --- the set of all subsets of \( Q \).
-  From the state table point of view, the effect is that there may be zero, one, or more rows for each combination of state and tape symbol.
-  In practice, we can view this as the Turing machine being able to fork, at will, into two or more branches of computation.
-  Note that every deterministic Turing machine is basically a non-deterministic Turing machine\footnote{You do have to change the transition function to map to \( \{ q \} \) rather than \( q \), but that's a trivial change.}.
+  where $\mathcal{P}(Q)$ is the powerset of $Q$.
+  By powerset, we mean the set of all subsets.
+
+  How does this affect the state table?
+  Now there may be zero, one, or more rows for each combination of state and tape symbol.
+  In practice, we can view this as the Turing machine being able to fork into two or more branches of computation.
+  Note that every deterministic Turing machine is essentially a non-deterministic Turing machine\footnote{You do have to adapt the transition function to map to $\{ q \}$ rather than $q$, but that's a trivial change.}.
 
   We say an input is accepted by a non-deterministic Turing machine if any of its branches end in the accept state.
-  It may be that other branches end in the fail state or compute forever.
+  It may be that other branches end in the fail state or do not halt.
   If all branches halt for all inputs, we say the non-deterministic Turing machine decides its language.
 
   How does non-determinism affect the computations Turing machines can perform?
   The bad news is that this doesn't give a Turing machine any extra power.
-  Turing proved in his 1936 paper \emph{On computable numbers with an application to the encheidungsproblem} that some languages are not the decidable by any Turing machine.
+  Turing proved in his 1936 paper \emph{On computable numbers with an application to the encheidungsproblem} that some languages are not decidable by any Turing machine.
   There are even languages that cannot be accepted, let alone be decided.
-  Allowing non-determinism does not change the languages that can be allowed or decided.
+  Allowing non-determinism does not change the languages that can be accepted or decided.
 
   However, it is not known whether computations can be done more efficiently on non-deterministic Turing machines.
   Examples abound of efficient non-deterministic Turing machines that accept or decide languages for which no known efficient deterministic Turing machine is known.
@@ -202,18 +210,18 @@
   A special case of this question is the \CC{P} versus \CC{NP} problem.
 
 
-\section{\CC{NP}}
+\section{Non-deterministic Polynomial Time}
   The \CC{NP} complexity class is the non-deterministic equivalent of the deterministic \CC{P} complexity class.
-  Define \( NTIME(f(n)) \) as the set of languages decidable by a non-deterministic Turing machine in \( O(f(n)) \).
-  Then, \CC{NP} is the set of all languages decidable by non-deterministic Turing machine in \( O(f(n)) \) steps.
+  Define $NTIME(f(n))$ as the set of languages decidable by a non-deterministic Turing machine in $O(f(n))$.
+  Then, \CC{NP} is the set of all languages decidable by non-deterministic Turing machine in $O(f(n))$ steps.
 
   Given that non-deterministic Turing machines may fork into many paths, how should we count the steps they take?
   The common way to count this is to consider the longest path taken, irrespective of whether it accepts or rejects.
   Thus a non-deterministic Turing machine takes \(O(f(n))\) steps if the maximum number of steps in its longest path on an input of length \(n\) is \(O(f(n))\).
 
   Note, because every deterministic Turing machine is also a non-deterministic Turing machine, every language in \CC{P} is in \CC{NP}.
-  So, \CC{P} \( \subseteq \) \CC{NP}.
-  The \CC{P} versus \CC{NP} problem is to determine whether \CC{P} \( = \) \CC{NP} or \CC{P} \( \subset \) \CC{NP}.
+  So, \CC{P} $\subseteq$ \CC{NP}.
+  The \CC{P} versus \CC{NP} problem is to determine whether \CC{P} $=$ \CC{NP} or \CC{P} $\subset$ \CC{NP}.
 
 \section{Church-Turing thesis}
   The ideas surrounding Turing machines arose from Turing's investigations into computability.
@@ -233,11 +241,11 @@
   We might care about this, for instance, if we are interested in running two Turing machines sequentially on the one input.
   The first Turing machine might manipulate the input in order that the second Turing machine receives that input altered in some way.
 
-  As an example, consider the language \texttt{EVENPARITY} containing all strings over the alphabet \( A = \{ 0,1 \} \) that contain an even number of \(1\)'s, including zero as an even number.
+  As an example, consider the language \texttt{EVENPARITY} containing all strings over the alphabet $A = \{ 0,1 \}$ that contain an even number of \(1\)'s, including zero as an even number.
   Thus, \texttt{EVENPARITY} \(= \{\epsilon, 0, 00, 11, 110, 101, 011, \ldots\} \).
   A simple Turing machine decides this language, as per Table \ref{table:statetable}.
   
-  We can use this Turing machine to decide the language \texttt{ODDPARITY}, containing all strings over \( A \) that contain an odd number of \(1\)'s, provided we use the machine given in Table \ref{table:oddparity} on the input first.
+  We can use this Turing machine to decide the language \texttt{ODDPARITY}, containing all strings over $A$ that contain an odd number of \(1\)'s, provided we use the machine given in Table \ref{table:oddparity} on the input first.
   
   \begin{table}
     \centering
@@ -264,13 +272,13 @@
   Note the machine always accepts, no matter the input.
   The net effect is that the head is back in the same starting point on the tape and a \(1\) has been appended to the original input on the tape.
   Giving this new input to the Turing machine in Table \ref{table:statetable} will lead to an accept if the original input contained an odd number of ones and reject otherwise.
-  We call this a reduction from \texttt{ODDPARITY} to \texttt{EVENPARITY}, denoted as \texttt{ODDPARITY} \( \leq \) \texttt{EVENPARITY}
+  We call this a reduction from \texttt{ODDPARITY} to \texttt{EVENPARITY}, denoted as \texttt{ODDPARITY} $\leq$ \texttt{EVENPARITY}
 
-  How many steps \( f(n) \) does the Turing machine in Table \ref{table:oddparity} take on an input of length \( n \)?
+  How many steps $f(n)$ does the Turing machine in Table \ref{table:oddparity} take on an input of length $n$?
   It scans across the input, then reads the blank at the end and moves left, back to the last symbol of the original input.
-  That takes \( n + 1 \) steps.
-  It then scans to the start of the input and reads the blank just beyond that before accepting, taking another \( n + 1 \) steps.
-  It total, that's \( f(n) = 2n+2 \) steps --- a polynomial.
+  That takes $n + 1$ steps.
+  It then scans to the start of the input and reads the blank just beyond that before accepting, taking another $n + 1$ steps.
+  It total, that's $f(n) = 2n+2$ steps --- a polynomial.
 
   What we have shown is that the \texttt{ODDPARITY} decision problem can be converted into \texttt{EVENPARITY} decision in polynomial time.
   By converted into, we mean that anything in \texttt{ODDPARITY} is converted into something in \texttt{EVENPARITY} and anything not in \texttt{ODDPARITY} is converted into something not in \texttt{EVENPARITY} so that the decider for \texttt{EVENPARITY} can decide \texttt{ODDPARITY}.
@@ -292,10 +300,10 @@
   The specific language that Cook demonstrated was \CC{NP-COMPLETE} is called \texttt{SAT}, which is short for \emph{Boolean satisfiability problem}.
   The language is made up of well-formed Boolean formulas.
   These are made up of a finite number of Boolean variables that can take either of the values \texttt{True} or \texttt{False}, the two binary operators \texttt{AND} and \texttt{OR}, and the unary operator \texttt{NOT}.
-  The \texttt{AND} operator is denoted \( \wedge \) where, for two Boolean variables \( A \) and \( B \), \( A \wedge B \) is \texttt{True} if and only if both \( A \) and \( B \) are.
-  The \texttt{OR} operator is denoted \( \vee \) where \( A \vee B \) is \texttt{True} if any of \( A \) and \( B \) are, including if both are.
-  Finally, \texttt{NOT} is denoted \( \neg \) and \( \neg A \) is True when \( A \) is false and vice versa.
-  We can define well-formed formulas by saying that variables and the above three operators as described are well-formed formulas, and then allowing the substitution of well-formed formulas for the \( A \)'s and \( B \)'s in the above using brackets as necessary to show precedence.
+  The \texttt{AND} operator is denoted $\wedge$ where, for two Boolean variables $A$ and $B$, $A \wedge B$ is \texttt{True} if and only if both $A$ and $B$ are.
+  The \texttt{OR} operator is denoted $\vee$ where $A \vee B$ is \texttt{True} if any of $A$ and $B$ are, including if both are.
+  Finally, \texttt{NOT} is denoted $\neg$ and $\neg A$ is True when $A$ is false and vice versa.
+  We can define well-formed formulas by saying that variables and the above three operators as described are well-formed formulas, and then allowing the substitution of well-formed formulas for the $A$'s and $B$'s in the above using brackets as necessary to show precedence.
   A formula is said to be satisfiable if there is some setting of the variables within the formula that makes it \texttt{True}.
   The language \texttt{SAT} is then the set of all satisfiable well-formed formulas\footnote{There is a slight technicality here in that the number of variables in the language is possibly infinite. Alphabets must be finite, so the variables themselves cannot be in the alphabet. We can get around this by encoding the variables using a finite alphabet.}.
 
