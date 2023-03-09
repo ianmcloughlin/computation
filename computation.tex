@@ -81,14 +81,14 @@
   Lots of common computational problems have several different common algorithms to solve them\footnote{For example, to sort a list we can use quick sort, bubble sort, or heap sort, among others.}.
 
 \section{State tables}
-  A Turing machine can be summarised in a five-columned table called a state table.
-  Each row of the table describes how to perform the transition function \( \delta \) for a given state and tape symbol.
-  Table~\ref{table:statetable} gives an example of a state table for a Turing machine that accepts all strings over the alphabet \( \{0, 1\} \) that contain an even number of \(1\)'s, including zero as an even number. 
+  A Turing machine can be encapsulated in a five-columned table called a state table.
+  Each row of the table specifies the transition function \( \delta \) for a given state and tape symbol.
+  Table~\ref{table:statetable} gives an example of a state table.
+  This Turing machine accepts all strings over the alphabet $\{0, 1\}$ that contain an even number of \(1\)'s, including zero as an even number. 
 
   \begin{table}
     \centering
     \begin{tabular}{ccccc}
-      \toprule
       State & Input & Write & Move & Next \\
       \midrule
       \(q_0\) &   0 &   0 & R & \(q_0\) \\
@@ -109,30 +109,51 @@
   First, the initial state is the first one listed in the table.
   Second, the tape alphabet is given by the distinct symbols in the second column.
   Finally, the only difference between the input and tape alphabets is the blank symbol.
-  Note that there is single row for each combination of state and tape symbol.
+  
+  Note that for every combination of non-terminal state tape alphabet, there is exactly one row in the state table.
+  As we have defined them, Turing machines must have this property.
+  Sometimes we break the rule, allowing any number of rows for a given state and tape symbol, even zero.
+  In that case we call the Turing machine non-deterministic.
+  Turing machines with exactly one row for each combination are then called deterministic.
 
 
 \section{Decision problems}
+  A Turing machine that always halts, irrespective of the input, is called a decider.  
   A decider makes a binary choice for a given input: accept or reject.
   The Turing machine \( M \) in this case performs a map:
   \[ f:\Sigma^* \rightarrow \{ q_a, q_f \} \]
-  Sometimes this map is called an indicator function, as it indicates which elements of \( \Sigma^* \) are in \( M \).
-  In general, a map from a set to any set with two elements is called a decision problem.
+  Sometimes this map is called an indicator function, as it indicates which elements of \( \Sigma^* \) are in \( L(M) \).
+  The Turing machine is an algorithm that performs the map.
+  
+  A map from the Kleene star $A^*$ of an alphabet $A$ is called a decision problem.
   So, a decider performs a decision problem.
+  The alphabet in that case is the input alphabet of the Turing machine:
+
 
 \section{Complexity}
   A decider takes a finite number of steps before halting on a given input.
-  We are typically interested in knowing the maximum number of steps \( f(n) \) the decider takes on all inputs of length \( n \).
-  We use the number of steps as a proxy for time --- it's common to call the number of steps the \emph{time} the Turing machine takes.
+  Consider all of the strings in $\Sigma^*$ of some specified length $n$.
+  For each of these strings, the decider might take a different number of steps.
+
+  We are typically interested in knowing the maximum number of steps \( f(n) \) the decider takes on inputs of length \( n \).
+  We use the number of steps as a proxy for time.
+  It is common to call the number of steps the \emph{time} the Turing machine takes.
+
+  Digital computers have a similar idea built-in called the clock.
+  There is a circuit in the computer that creates a regular pulse.
+  On each pulse, the other circuits in the computer perform their next action.
+  The transition from one pulse to the next is often called a clock cycle.
+  Usually each clock cycle takes the same amount of time up a given precision, but not always.
+  A clock cycle is analogous to us looking for the next step in a Turing machine's state table.
   
-  We can often express \( f(n) \) using a simple formula.
-  For example, the Turing machine in Table \ref{table:statetable} takes \( f(n) = n + 1 \) steps on every input --- reading every symbol of the input and the blank after it before halting.  
+  We can sometimes express the maximum number of steps a Turing machine takes on an input of length $n$ \( f(n) \) using an expression in $n$.
+  For example, the Turing machine in Table \ref{table:statetable} takes \( f(n) = n + 1 \) steps on every input.
+  It just reads every symbol of the input and a single blank at the end before halting.  
   We are interested in knowing how \( f(n) \) grows in relation to \( n \).
   For this, we use big-O notation.
 
   A function \( f(n) \) is said to be \( O(g(n)) \) if there exist two positive integers \( c \) and \( n_0 \) such that \( cg(n) \geq f(n) \) for all \(n \geq n_0 \).
   In the previous example, \( f(n) = 2n + 2 \) is \( O(n) \) which can be seen by setting \( g(n) = n \), \( c = 3 \) and \( n_0 = 2 \) as per Figure~\ref{figure:bigo}.
-
   \begin{figure}
   \begin{tikzpicture}
     \begin{axis}[xmin=0, xmax=6, ymin=0, ymax=20, axis lines = left]
@@ -143,8 +164,7 @@
   \caption{Big-O notation.}
   \label{figure:bigo}
 \end{figure}
-
-  We usually define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O\left(f(n)\right) \) steps.
+  We can then define the complexity class \CC{NTIME}\((f(n)) \) as the set of all languages for which there is a decider that takes \( O\left(f(n)\right) \) steps.
 
 \section{\CC{P}}
   We denote by \CC{P} the set of languages that are each decidable by some Turing machine in \( O(n^k) \) steps for some \( n \in \mathbb{N} \) where \( \mathbb{N} \) is the set of natural numbers without zero, \( \{ 1, 2, 3, \ldots\} \).
