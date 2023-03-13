@@ -127,7 +127,7 @@ $$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \qu
   
   A map from the Kleene star $A^*$ of an alphabet $A$ is called a decision problem.
   So, a decider performs a decision problem.
-  The alphabet in that case is the input alphabet of the Turing machine:
+  The alphabet in that case is the input alphabet of the Turing machine.
 
 
 \section{Complexity}
@@ -170,51 +170,69 @@ $$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \qu
 
 \section{Polynomial Time}
   We define the complexity class\footnote{A complexity class is a set of languages.} \CC{TIME}\((f(n)) \) as the set of all languages for which there is a decider that takes $O\left(f(n)\right)$ steps.
+  In some sources, notably the Complexity Zoo~\autocite{complexityZooDTIME}, \CC{TIME} is called \CC{DTIME}.
+  The \CC{D} stands for deterministic.
   
-  Possibly the most famous complexity class is \CC{P}, the set of languages that are each decidable by some deterministic Turing machine in $O(n^k)$ steps for some $n \in \mathbb{N}$ where $\mathbb{N}$ is the set of natural numbers without zero, $\{ 1, 2, 3, \ldots\}$.
-  Using the \CC{TIME}\((f(n)) \) definition, \CC{P} is equivalently defined as the union of \CC{TIME}$(n^k)$ for all $k \in \mathbb{N}$.
+  Possibly the most famous complexity class is \CC{P}, the set of languages that are each decidable by some deterministic Turing machine in $O(n^k)$ steps for some $n \in \mathbb{N}_0$.
+  Using the \CC{TIME}\((f(n)) \) definition, \CC{P} is equivalently defined as the union of \CC{TIME}$(n^k)$ for all $k \in \mathbb{N}_0$.
   $$ \CC{P} = \bigcup_{k \in \mathbb{N}} \CC{TIME}(n^k)$$
-  The \CC{P} is short for polynomial.
   
-  We define a polynomial as an expression in a variable $n$ made up of constants, powers of $n$, addition, subtraction and multiplication.
-  For example, $n^5 + 2n + 4$ is a polynomial whereas $2^n + n^2 + 5$ is not because it is made up of something other than those elements listed above, namely $2^n$.
+  The \CC{P} is short for polynomial.
+  We define a polynomial as an expression in a numeric variable $n$ made up of constants, positive integer powers of $n$, addition, and multiplication.
+ 
+  A key property of a polynomial expression is that the number of additions and multiplications that the expression involves does not depend on $n$.
+  For example, $n^5 + 2n + 4$ is a polynomial involving five mutliplications and two additions.
+  The expression $2^n + n^2 + 5$ is not a polynomial because the appearance of $2^n$ means we do not know how many mutliplications we will carry out until we know $n$.
 
 
 \section{Non-determinism}
   \label{sect:nondet}
   We consider now a modification to Turing machines.
-  We will allow a Turing machine to transition to zero or more states simultaneously from a given state when reading a given symbol.
-  This requires a modification to the transition function as follows:
+  We will allow a Turing machine to transition to zero or more states simultaneously at each step.
+  That is, in a given state, when reading a given symbol, the machine can follow any number of paths.
+  This requires a modification to the transition function as follows.
    \[ \delta: Q \times \Gamma \rightarrow \Gamma \times \{ L, R \} \times \mathcal{P}(Q) \]
-  where $\mathcal{P}(Q)$ is the powerset of $Q$.
-  By powerset, we mean the set of all subsets.
+  Here $\mathcal{P}(Q)$ is the powerset of $Q$.
+  By powerset, we mean the set of all subsets if $Q$.
 
   How does this affect the state table?
   Now there may be zero, one, or more rows for each combination of state and tape symbol.
   In practice, we can view this as the Turing machine being able to fork into two or more branches of computation.
-  Note that every deterministic Turing machine is essentially a non-deterministic Turing machine\footnote{You do have to adapt the transition function to map to $\{ q \}$ rather than $q$, but that's a trivial change.}.
+  Note that every deterministic Turing machine is essentially a non-deterministic Turing machine.
+  You do have to adapt the transition function to map to the set $\{ q \}$ rather than the element $q$, but that's a trivial change.
 
   We say an input is accepted by a non-deterministic Turing machine if any of its branches end in the accept state.
-  It may be that other branches end in the fail state or do not halt.
+  It may be that some branches end in the fail state or do not halt.
+  However, we say the machine halts -- that is, every branch halts -- whenever any branch enters the accept state\footnote{In terms of the steps the machine takes, all branches stay in sync. All live branches take a step together, as determined by the state table.}.
+  The same is not true for the fail state.
+  For an input to be rejected, every branch must enter the fail state.
   If all branches halt for all inputs, we say the non-deterministic Turing machine decides its language.
 
   How does non-determinism affect the computations Turing machines can perform?
-  The bad news is that this doesn't give a Turing machine any extra power.
+  The bad news is that this does not give a Turing machine any extra power.
+  Any language accepted by a non-deterministic Turing machine is also accepted by some deterministic Turing machine.
+  Any language decided by a non-deterministic Turing machine is also decided by some deterministic Turing machine.
+
   Turing proved in his 1936 paper \emph{On computable numbers with an application to the encheidungsproblem} that some languages are not decidable by any Turing machine.
   There are even languages that cannot be accepted, let alone be decided.
   Allowing non-determinism does not change the languages that can be accepted or decided.
 
   However, it is not known whether computations can be done more efficiently on non-deterministic Turing machines.
-  Examples abound of efficient non-deterministic Turing machines that accept or decide languages for which no known efficient deterministic Turing machine is known.
+  Examples abound of polynomial-time non-deterministic Turing machines that accept or decide languages for which no known polynomial-time deterministic Turing machine is known.
   It is unknown whether such deterministic Turing machines exist.
-  A special case of this question is the \CC{P} versus \CC{NP} problem.
+  This is the \CC{P} versus \CC{NP} problem.
 
 
 \section{Non-deterministic Polynomial Time}
   The \CC{NP} complexity class is the non-deterministic equivalent of the deterministic \CC{P} complexity class.
-  Define $NTIME(f(n))$ as the set of languages decidable by a non-deterministic Turing machine in $O(f(n))$.
-  Then, \CC{NP} is the set of all languages decidable by non-deterministic Turing machine in $O(f(n))$ steps.
+  Define $NTIME(f(n))$ as the set of languages decidable by a non-deterministic Turing machine in $O(f(n))$ steps.
+  
+  For an accepted input, all branches halt once one of them reaches the accept state.
+  The steps taken by the machine is the number of steps taken in that accepting branch.
+  For a rejected input, all branches must end in the fail states.
+  The number of steps taken is then defined to be the number of steps taken in the longest branch.
 
+  Then, \CC{NP} is the set of all languages decidable by non-deterministic Turing machine in $O(n^k)$ steps for $k \in \mathbb{N}_0$.
   Given that non-deterministic Turing machines may fork into many paths, how should we count the steps they take?
   The common way to count this is to consider the longest path taken, irrespective of whether it accepts or rejects.
   Thus a non-deterministic Turing machine takes \(O(f(n))\) steps if the maximum number of steps in its longest path on an input of length \(n\) is \(O(f(n))\).
@@ -223,29 +241,158 @@ $$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \qu
   So, \CC{P} $\subseteq$ \CC{NP}.
   The \CC{P} versus \CC{NP} problem is to determine whether \CC{P} $=$ \CC{NP} or \CC{P} $\subset$ \CC{NP}.
 
+
 \section{Church-Turing thesis}
   The ideas surrounding Turing machines arose from Turing's investigations into computability.
-  Alonzo Church was Turing's PhD supervisor and developed an equivalent system called lambda calculus.
+  Alonzo Church was Turing's PhD supervisor and developed an equivalent computational system called lambda calculus.
   By equivalent, we mean that any computation that can be done on a Turing machine can be done using lambda calculus and vice versa.
-  Lambda calculus is the basis for functional programming languages, and the difference between functional and imperative programming languages is mirrored in that between lambda calculus and Turing machines.
+  Lambda calculus is the basis for functional programming languages.
+  The difference between functional and imperative programming languages\footnote{Python, C, Java, C++, Perl, Go, Rust are all examples of imperative languages. Imperative languages use statements to manipulate data.} is mirrored in that between lambda calculus and Turing machines.
   
-  Turing and Church were working on ideas posed by G{\"o}del and Hilbert which concerned the foundations of mathematics.
-  Hilbert asked if mathematics was algorithmic in the sense that true mathematical statements could be deduced by some procedure from axioms.
+  Turing and Church were working on ideas posed by Hilbert and G{\"o}del which concerned the foundations of mathematics.
+  Hilbert asked if mathematics was algorithmic in the sense that true mathematical statements could be deduced by some mechanical procedure from axioms.
   G{\"o}del had shown that there must be some statements in mathematics that are true but cannot be proved.
+  
   Church and Turing proved, while developing their computational systems, that their systems could not compute everything.
+  The question then arises: do Turing machines fully encompass all possible computations?
   What has become known as the Church-Turing thesis is the idea that what we as humans think of as computation is perfectly encapsulated by Turing machines and so the limits on computation are real --- they are not just features of Turing machines.
+  In the next section we show that there is at least one decision problem over $\{0,1\}$ that no Turing machine can decide.
+
+
+
+
+\section{Decidability}
+  Consider the alphabet $A = \{0,1\}$ and its Kleene star $A^* = \{\epsilon, 0, 1, 00, \ldots\}$.
+  A language $L_1$ over $A$ is a subset of $A^*$: $L_1 \subseteq A^*$.
+  The language $L_1$ might be recognized by a Turing machine $M_a$: $L(M_a) = L_1$.
+  A different Turing machine $M_b$ might also recognize $L_1$: $L(M_a) = L(M_b) = L_1$.
+  There might be more Turing machines that recognize it.
+
+  There might also be none.
+  How can we say that with confidence?
+  There are simply too many languages and not enough Turing machines.
+  Note that the set of languages over an alphabet $A$ is infinite.
+  Likewise, the number of Turing machines accepting inputs over $A$ is infinite.
+  So, how can it be that there are more languages than machines?
+
+  The answer lies in the notion of correspondence.
+  We will define a correspondence as a bijection between two sets\footnote{Sometimes we talk of correspondences related to partial functions, but we will ignore that.}.
+  If there is a bijection between two sets, we will say they have the same size, even when they are infinite.
+
+  A surprising fact about infinite sets is that some of them correspond to each other and some do not.
+  For instance, the set of natural numbers $\mathbb{N}$ and the set of even natural numbers $2\mathbb{N}$ can be put in a correspondence defined by the following map.
+  $$f:\mathbb{N} \leftrightarrow 2\mathbb{N}: n \leftrightarrow 2n$$
+  Each element $n$ of $\mathbb{N}$ is paired with exactly one element of $2\mathbb{N}$.
+  Likewise, each element of $2\mathbb{N}$ is paired with exactly one element of $\mathbb{N}$.
+  So $\mathbb{N}$ and $2\mathbb{N}$ seem to have the same number of elements.
+
+  Another set that the same number of elements as $\mathbb{N}$ is the Kleene star of $A=\{0,1\}$.
+  We need to give a bijection between the sets $\mathbb{N}$ and $A^*$.
+  Unfortunately, simply reading the elements of $A^*$ as binary numbers does not lead to a bijection.
+  This is because and infinite number of strings in $A^*$ will give the same natural number because of leading zeros.
+  For instance, $10$, $010$, $0010$, and $00010$ are all binary representations of the number $2$ where the most significant bit us on the left.
+  There are also issues with the number $0$.
+  However, if we specify that we prepend a $1$ to each element of $A^*$ then we do get one copy of each natural number in binary format.
+  $$g:\{0,1\}^*\leftrightarrow1\{0,1\}^*: w \leftrightarrow 1w$$
+  $$\{\epsilon, 0, 1, 00, 01, 10, 11, \ldots\} \leftrightarrow \{ 1, 10, 11, 100, 101, 110, 111, \ldots \}$$
+  Then the correspondence is between the number $n$ written in decimal in $\mathbb{N}$ to the same number $1w$ in $1A^*$ written in binary.
+  $$f:\mathbb{N} \leftrightarrow \{0,1\}^*:n_{10} \leftrightarrow 1n_2 $$
+  In the above, $n_2$ means the binary representation of $n$ and $n_{10}$ means the decimal representation.
+  So, $A^*$ is the same size as $\mathbb{N}$.
+  
+  Now, the set of languages over $A$ is the set of subsets of $A^*$.
+  The set of all sets of a set $S$ is called the power set of $S$ and is written $\mathcal{P}(S)$.
+  So, the set of all languages over $A$ is the power set of $A^*$.
+  The mathematician Georg Cantor gave a proof that there can be no correspondence between a set and its power set in 1891.
+  The proof uses what is known as the diagonalization argument.
+
+  The proof, adapted for our purposes, is roughly as follows.
+  Suppose $f$ is a correspondence from $A^*$ to its power set $\mathcal{P}(A^*)$.
+  Then $f(w) = \{w_0, w_1, w_2, \ldots\}$ for any $w$ in $A^*$ where $w_i$ is some element of $A^*$.
+  For example, $f(01)$ might be $\{0,1\}$ and $f(0010)$ might be $\{00, 11, 000, 111, \ldots\}$.
+
+  We then use two facts about the natural numbers: they can be listed out, albeit in an infinite fashion, and they can be ordered.
+  We will use the usual way of listing them out in order: $(1, 2, 3, 4, \ldots)$.
+  Under our correspondence, this gives the ordering $(\epsilon, 0, 1, 00, \ldots)$ of $A^*$.
+  
+  Then we create the following table.
+  There are an infinite number of rows and an infinite number of columns.
+  The columns are labeled with the elements of $A^*$ according to our ordering of it.
+  Likewise, the rows are labelled with the elements of $A^*$ in the same order.
+  Now, each entry in the table is either $0$ or $1$.
+  The entry is $1$ if the column label is an element of the set in $\mathcal{P}(A^*)$ to which the row label corresponds to.
+  Table~\ref{table:diagonal} depicts the first few entries.
+  \begin{table}
+    \centering 
+    \begin{tabular}{c|cccccccc}
+      $A^*$      & $\epsilon$ &      $0$ &      $1$ &      $00$ &      $01$ &      $11$ &     $000$ & $\ldots$ \\
+      \midrule
+      $\epsilon$ &        $1$ &      $1$ &      $0$ &       $0$ &       $0$ &       $0$ &       $0$ & $\ldots$ \\  
+      $0$        &        $0$ &      $1$ &      $1$ &       $0$ &       $0$ &       $1$ &       $1$ & $\ldots$ \\  
+      $1$        &        $0$ &      $0$ &      $0$ &       $1$ &       $0$ &       $0$ &       $0$ & $\ldots$ \\  
+      $00$       &        $0$ &      $0$ &      $1$ &       $0$ &       $0$ &       $1$ &       $0$ & $\ldots$ \\  
+      $01$       &        $0$ &      $1$ &      $1$ &       $0$ &       $0$ &       $1$ &       $0$ & $\ldots$ \\  
+      $11$       &        $0$ &      $1$ &      $0$ &       $0$ &       $0$ &       $1$ &       $0$ & $\ldots$ \\  
+      $\vdots$   &   $\vdots$ & $\vdots$ & $\vdots$ &  $\vdots$ &  $\vdots$ &  $\vdots$ &  $\vdots$ & $\ddots$ \\  
+    \end{tabular}
+    \caption{Our supposed correspondence between $\{0,1\}^*$ and $\mathcal{P}(\{0,1\}^*)$.}
+    \label{table:diagonal}
+  \end{table}
+  \vspace{12mm}
+
+  In the table, no two rows can be the same.
+  The idea of the correspondence is that each element of $A^*$ (the row labels) corresponds to a unique subset of $A^*$.
+  The rows depict what are called indicator functions.
+  Suppose $w$ is a row label.
+  The 1's indicate which elements of $A^*$ are in the set corresponding to $w$.
+  Essentially each row depicts a decision problem.
+
+  We have assumed that a correspondence $f$ exists.
+  Now we can show that there is a problem with that assumption -- we can show that it leads to a contradiction.
+  The correspondence is supposed to map a unique element of $A^*$ to each element of $\mathcal{P}(A^*)$.
+  However, we can find a set $D$ in $\mathcal{P}(A^*)$ that cannot be mapped to from anything in $A^*$ in the correspondence.
+  
+  That subset $D$ of $A^*$ is as follows.
+  The idea is to look at each of the entries in the main diagonal of the table above.
+  If it is a $0$, take the column label as an element of $D$.
+  If it is a $1$, do not include the column label in $D$.
+  This ensures that $D$ is different from the subset of $A^*$ indicated by row $i$ of the table in the inclusion of the $i^{th}$ column label.
+  If the element is in the subset indicated by row $i$, it is not included in $D$.
+  If it is not in the subset, it is included in $D$.
+  
+  So, $D$ is different from the subset indicated by every row of the table.
+  However, it is a subset of $A^*$.
+  We have found a subset of $A^*$ that is not involved in the correspondence.
+  This contradicts our assumption that $f$ is a correspondence.
+  We conclude that no such correspondence can exist.
+  That is, there is at least one more element, in some sense, in the power set than in the original set.
+  Note that we depicted a specific supposed $f$ in Table~\ref{table:diagonal}, but this argument works no matter what the entries in the table are.
+
+  So, there are more languages over $A$ than there are strings over $A$.
+  How does this show that some languages are not decided by any Turing machine.
+  The key is to show that every Turing machine can systematically be converted into a string over $A$.
+
+  Turing gives a comprehensive encoding of Turing machines as strings in his paper.
+  We will just note that the state tables in this document are all contained in computer files.
+  Computer files are strings of 0's and 1's.
+  Thus, every state table that we can depict is a string of 0's and 1's.
+  Therefore, there at most as many Turing machines as there are strings over $\{0,1\}$.
+  So, at least one language over $\{0,1\}$ cannot be decided by any Turing machine.
+  The decision problem it represents is undecidable.
+
+
 
 \section{Reductions}
   Ultimately the output of a Turing machine is a binary accept/reject decision.
   However, Turing machines also have another type of output: what is left on the tape once the machine halts.
-  We might care about this, for instance, if we are interested in running two Turing machines sequentially on the one input.
+  We might care about this, for instance, if we are interested in running two Turing machines sequentially on the one initial input.
   The first Turing machine might manipulate the input in order that the second Turing machine receives that input altered in some way.
 
-  As an example, consider the language \texttt{EVENPARITY} containing all strings over the alphabet $A = \{ 0,1 \}$ that contain an even number of \(1\)'s, including zero as an even number.
-  Thus, \texttt{EVENPARITY} \(= \{\epsilon, 0, 00, 11, 110, 101, 011, \ldots\} \).
+  As an example, consider the language \CC{EVENPARITY} containing all strings over the alphabet $A = \{ 0,1 \}$ that contain an even number of \(1\)'s, including zero as an even number.
+  Thus, \CC{EVENPARITY} \(= \{\epsilon, 0, 00, 11, 110, 101, 011, \ldots\} \).
   A simple Turing machine decides this language, as per Table \ref{table:statetable}.
   
-  We can use this Turing machine to decide the language \texttt{ODDPARITY}, containing all strings over $A$ that contain an odd number of \(1\)'s, provided we use the machine given in Table \ref{table:oddparity} on the input first.
+  We can use this Turing machine to decide the language \CC{ODDPARITY}, containing all strings over $A$ that contain an odd number of \(1\)'s, provided we use the machine given in Table \ref{table:oddparity} on the input first.
   
   \begin{table}
     \centering
@@ -272,7 +419,7 @@ $$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \qu
   Note the machine always accepts, no matter the input.
   The net effect is that the head is back in the same starting point on the tape and a \(1\) has been appended to the original input on the tape.
   Giving this new input to the Turing machine in Table \ref{table:statetable} will lead to an accept if the original input contained an odd number of ones and reject otherwise.
-  We call this a reduction from \texttt{ODDPARITY} to \texttt{EVENPARITY}, denoted as \texttt{ODDPARITY} $\leq$ \texttt{EVENPARITY}
+  We call this a reduction from \CC{ODDPARITY} to \CC{EVENPARITY}, denoted as \CC{ODDPARITY} $\leq$ \CC{EVENPARITY}
 
   How many steps $f(n)$ does the Turing machine in Table \ref{table:oddparity} take on an input of length $n$?
   It scans across the input, then reads the blank at the end and moves left, back to the last symbol of the original input.
@@ -280,13 +427,13 @@ $$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \qu
   It then scans to the start of the input and reads the blank just beyond that before accepting, taking another $n + 1$ steps.
   It total, that's $f(n) = 2n+2$ steps --- a polynomial.
 
-  What we have shown is that the \texttt{ODDPARITY} decision problem can be converted into \texttt{EVENPARITY} decision in polynomial time.
-  By converted into, we mean that anything in \texttt{ODDPARITY} is converted into something in \texttt{EVENPARITY} and anything not in \texttt{ODDPARITY} is converted into something not in \texttt{EVENPARITY} so that the decider for \texttt{EVENPARITY} can decide \texttt{ODDPARITY}.
+  What we have shown is that the \CC{ODDPARITY} decision problem can be converted into \CC{EVENPARITY} decision in polynomial time.
+  By converted into, we mean that anything in \CC{ODDPARITY} is converted into something in \CC{EVENPARITY} and anything not in \CC{ODDPARITY} is converted into something not in \CC{EVENPARITY} so that the decider for \CC{EVENPARITY} can decide \CC{ODDPARITY}.
   The fact that the conversion happens in polynomial time is significant, as the sum of two polynomials is a polynomial.
-  Thus if \texttt{EVENPARITY} is in \CC{P} then so is \texttt{ODDPARITY}.
-  This essentially means that \texttt{ODDPARITY} is no more difficult to decide than \texttt{EVENPARITY}.
+  Thus if \CC{EVENPARITY} is in \CC{P} then so is \CC{ODDPARITY}.
+  This essentially means that \CC{ODDPARITY} is no more difficult to decide than \CC{EVENPARITY}.
 
-  Note a quirk in this situation: \texttt{EVENPARITY} can be reduced to \texttt{ODDPARITY} using the same set up.
+  Note a quirk in this situation: \CC{EVENPARITY} can be reduced to \CC{ODDPARITY} using the same set up.
   The two problems are considered equivalent.
   This is not always the case --- sometimes we can only reduce in one direction.
 
@@ -297,15 +444,15 @@ $$ A^0 = \{ \epsilon \}; \quad A^{i} = \{ as \mid a \in A, s \in A^{i-1} \}; \qu
   The language that Cook used is itself in \CC{NP}.
   Languages that are both \CC{NP-HARD} and in \CC{NP} themselves are called \CC{NP-COMPLETE}.
 
-  The specific language that Cook demonstrated was \CC{NP-COMPLETE} is called \texttt{SAT}, which is short for \emph{Boolean satisfiability problem}.
+  The specific language that Cook demonstrated was \CC{NP-COMPLETE} is called \CC{SAT}, which is short for \emph{Boolean satisfiability problem}.
   The language is made up of well-formed Boolean formulas.
-  These are made up of a finite number of Boolean variables that can take either of the values \texttt{True} or \texttt{False}, the two binary operators \texttt{AND} and \texttt{OR}, and the unary operator \texttt{NOT}.
-  The \texttt{AND} operator is denoted $\wedge$ where, for two Boolean variables $A$ and $B$, $A \wedge B$ is \texttt{True} if and only if both $A$ and $B$ are.
-  The \texttt{OR} operator is denoted $\vee$ where $A \vee B$ is \texttt{True} if any of $A$ and $B$ are, including if both are.
-  Finally, \texttt{NOT} is denoted $\neg$ and $\neg A$ is True when $A$ is false and vice versa.
+  These are made up of a finite number of Boolean variables that can take either of the values \CC{True} or \CC{False}, the two binary operators \CC{AND} and \CC{OR}, and the unary operator \CC{NOT}.
+  The \CC{AND} operator is denoted $\land$ where, for two Boolean variables $A$ and $B$, $A \land B$ is \CC{True} if and only if both $A$ and $B$ are.
+  The \CC{OR} operator is denoted $\lor$ where $A \lor B$ is \CC{True} if any of $A$ and $B$ are, including if both are.
+  Finally, \CC{NOT} is denoted $\neg$ and $\neg A$ is \CC{True} when $A$ is \CC{False} and vice versa.
   We can define well-formed formulas by saying that variables and the above three operators as described are well-formed formulas, and then allowing the substitution of well-formed formulas for the $A$'s and $B$'s in the above using brackets as necessary to show precedence.
-  A formula is said to be satisfiable if there is some setting of the variables within the formula that makes it \texttt{True}.
-  The language \texttt{SAT} is then the set of all satisfiable well-formed formulas\footnote{There is a slight technicality here in that the number of variables in the language is possibly infinite. Alphabets must be finite, so the variables themselves cannot be in the alphabet. We can get around this by encoding the variables using a finite alphabet.}.
+  A formula is said to be satisfiable if there is some setting of the variables within the formula that makes it \CC{True}.
+  The language \CC{SAT} is then the set of all satisfiable well-formed formulas\footnote{There is a slight technicality here in that the number of variables in the language is possibly infinite. Alphabets must be finite, so the variables themselves cannot be in the alphabet. We can get around this by encoding the variables using a finite alphabet.}.
 
 %\section{Undecidable problems}
 %  Turing showed that some languages 
